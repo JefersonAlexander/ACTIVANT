@@ -1,0 +1,12 @@
+import Link from "next/link";
+import { BookOpen } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { PageHeading, Panel, QuietEmpty, ReadError } from "@/modules/dashboard/components/dashboard-ui";
+import { formatDate } from "@/modules/dashboard/dates";
+import { Pagination } from "@/modules/administration/components/filters";
+import { ContentEditor } from "./content-editor";
+import { getLibrary, getLibraryAssets } from "../services/queries";
+export async function ContentManagement({ page=1 }: { page?: number }) {
+  const [contents,assets]=await Promise.all([getLibrary({page,admin:true}),getLibraryAssets()]);
+  return <><PageHeading eyebrow="Administración" title="Contenidos" description="Prepara, revisa y publica recursos. Los borradores y archivos sin publicar solo son visibles para administradores."/><div className="grid items-start gap-5 xl:grid-cols-2"><Panel title="Catálogo administrable">{contents.error?<ReadError message={contents.error}/>:contents.data?.length?<ul className="divide-y">{contents.data.map(c=><li key={c.id} data-content-id={c.id} className="py-5 first:pt-0"><div className="flex flex-wrap items-start justify-between gap-2"><h3 className="min-w-0 break-words font-semibold">{c.title}</h3><Badge variant="outline">{c.status==="published"?"Publicado":c.status==="archived"?"Archivado":"Borrador"}</Badge></div><p className="mt-2 text-xs text-muted-foreground">{c.duration_minutes} min · Actualizado el {formatDate(c.updated_at)}</p><Link href={`/biblioteca/${c.id}`} className="mt-2 inline-flex min-h-11 items-center text-sm text-primary underline underline-offset-4">Vista previa</Link><details className="mt-2"><summary className="min-h-11 cursor-pointer rounded-lg py-3 text-sm font-medium text-primary">Editar contenido</summary><div className="mt-3">{assets.error?<ReadError message={assets.error}/>:<ContentEditor content={c} assets={assets.data??[]}/>}</div></details></li>)}</ul>:<QuietEmpty icon={BookOpen} title="No hay contenidos registrados" description="Crea el primer borrador y carga material autorizado para iniciar el catálogo."/>}<Pagination page={page} count={contents.count??0} size={12} href="/admin/contenidos"/></Panel><Panel title="Nuevo contenido" description="Puedes guardar un borrador antes de cargar los archivos. Publicar exige portada y recurso autorizados.">{assets.error?<ReadError message={assets.error}/>:<ContentEditor assets={assets.data??[]}/>}</Panel></div></>;
+}

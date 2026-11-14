@@ -1,0 +1,52 @@
+# Dependencias instaladas (incluye tools/database/node_modules).
+node_modules/
+
+# Compilaciones y cachés generadas.
+.next/
+out/
+.turbo/
+.cache/
+.eslintcache
+*.tsbuildinfo
+next-env.d.ts
+
+# Variables locales y secretos. Las plantillas sin valores sí se versionan.
+.env*
+.evn*
+!.env.example
+!.env.*.example
+
+# Pruebas, capturas, trazas y evidencia local de auditoría.
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+playwright/.cache/
+artifacts/
+.database-tests/
+
+# Estado local de servicios; conservar migraciones y supabase/config.toml.
+.supabase/
+supabase/.temp/
+supabase/.branches/
+.vercel/
+.netlify/
+
+# Preferencias personales del editor y archivos temporales.
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+*.swo
+*~
+*.log
+*.pid
+*.pid.lock
+
+# Archivos generados por Windows y macOS.
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Conservar package-lock.json, herramientas, pruebas fuente, documentación,
+# .github/workflows, AGENTS.md y tipos de Supabase generados/versionados.

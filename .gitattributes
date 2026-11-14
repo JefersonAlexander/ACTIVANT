@@ -1,0 +1,3 @@
+# Mantener los archivos de texto en LF en Windows, Linux y GitHub Actions.
+# Evita cambios de hashes de migraciones y tipos por conversiones CRLF.
+* text=auto eol=lf

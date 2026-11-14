@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-13",
+  "postgresql": "17.11",
+  "generator": "@supabase/typegen",
+  "generator_version": "0.4.0",
+  "database_checks_passed": 220,
+  "scope": "Isolated PostgreSQL with minimal Auth and Storage SQL contracts; no hosted service or production access",
+  "migrations": [
+    {
+      "file": "20261113120000_create_profiles.sql",
+      "sha256": "8cd45d81572333f7cbe565ac7a98ac8fe0823d743bea232a6409ebd2e82917d1"
+    },
+    {
+      "file": "20261113130000_gym_data_model.sql",
+      "sha256": "c9a1df0ff5b22503b1f2899d9fb297d43228f6df6f539e6b95fb81c7ed124af9"
+    },
+    {
+      "file": "20261113131000_gym_secure_functions.sql",
+      "sha256": "2fa926f5b87462022492a64aaa6eece92a888e293254f2b3365d3706e3058092"
+    },
+    {
+      "file": "20261113140000_gym_booking.sql",
+      "sha256": "02543702cee9b7a5034b01b24f0d51a66ee2025775335b4a16d37a123ce17a32"
+    },
+    {
+      "file": "20261113150000_shared_attendance_qr.sql",
+      "sha256": "048f0e97d8adfc08862f514268ea632c073bb5a37e17dfeb45a85909059edce9"
+    },
+    {
+      "file": "20261113160000_points_and_absences.sql",
+      "sha256": "21bd7de769905306eaef935a79bd64fde99ee9edd84509ca5064a1ee1ee3be70"
+    },
+    {
+      "file": "20261113161000_points_transactions.sql",
+      "sha256": "59f5a8c643acf05c45d5ef1f14c8b1832b0571bc9700731dc30282f7dfeef1ba"
+    },
+    {
+      "file": "20261113162000_absence_review.sql",
+      "sha256": "b887939784235ac8203fa96282eeeb2061fd9524e59e2e963f6aacbcc7105b88"
+    },
+    {
+      "file": "20261113170000_waitlist_notifications.sql",
+      "sha256": "aedfcd8bc542cac4d8081a708962a25f3a2b734a3700d1240ffd4b8b820d49a2"
+    },
+    {
+      "file": "20261113171000_waitlist_booking_runtime.sql",
+      "sha256": "08b8fefbda57364014446e3990231087a9e4ba8c436fe4e85eb4b1c6056cc78e"
+    },
+    {
+      "file": "20261113180000_wellness_library.sql",
+      "sha256": "553c740dd6816dc8f0905a7bea4f39e63c9634390f0e32e2b1e4419f91531942"
+    },
+    {
+      "file": "20261113181000_administrative_queries.sql",
+      "sha256": "f15fea1993aaa9fe473221498391745b2e6a969d4fe35556ef2e198a5dcb869f"
+    },
+    {
+      "file": "20261113200000_preserve_sanction_start.sql",
+      "sha256": "25949341f3a65a3d8026e1f35da4806b0e7ecbecb86e0341ab368ee1b79647d0"
+    }
+  ],
+  "generated_types": {
+    "file": "src/lib/supabase/database.types.ts",
+    "sha256": "9821c9e8b10bd2be544e6c10a9471d1d16a794d99cb1e9211e177937dc81ee26"
+  },
+  "booking_checks_passed": 19,
+  "policy_checks_passed": 112,
+  "attendance_checks_passed": 19,
+  "program_checks_passed": 26,
+  "waitlist_checks_passed": 23,
+  "library_admin_checks_passed": 18,
+  "security_audit_checks_passed": 3
+}

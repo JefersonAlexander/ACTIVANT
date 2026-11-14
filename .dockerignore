@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env*
+.evn*
+.database-tests
+tools/database/node_modules
+test-results
+playwright-report
+artifacts
+*.log

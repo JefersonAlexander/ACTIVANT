@@ -1,0 +1,40 @@
+name: quality
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  local-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      APP_ENV: test
+      APP_URL: http://127.0.0.1:3000
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54322
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_fixture_only_not_a_real_key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm ci --prefix tools/database
+      - run: npm run validate
+      - run: npm run test:db
+      - run: npm audit --omit=dev --audit-level=high
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          CI: '1'
+      - run: npm run test:auth
+        env:
+          CI: '1'
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: synthetic-test-results
+          path: test-results/
+          retention-days: 7
