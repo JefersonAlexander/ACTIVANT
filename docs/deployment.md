@@ -1,6 +1,6 @@
 # Despliegue y operación de ACTIVANT
 
-Estado: preparación local; no se publicó el aplicativo ni se aplicaron migraciones remotas. Leer también el [informe de auditoría](audit-2026-11-13.md). La clave publicable permite conectar el cliente, pero no aplicar SQL ni configurar Auth.
+El repositorio incluye un [flujo de migraciones y despliegue automático](automatic-deployment.md), con credenciales separadas para GitHub y Vercel. Su ejecución remota debe comprobarse en Actions; la configuración del workflow por sí sola no demuestra que se haya instalado la base. Leer también el [informe de auditoría](audit-2026-11-13.md), que conserva los resultados de su fecha. La clave publicable permite conectar el cliente, pero no aplicar SQL ni configurar Auth.
 
 ## Entornos y variables
 

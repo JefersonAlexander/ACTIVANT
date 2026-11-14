@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   poweredByHeader: false,
   output: "standalone",
-  outputFileTracingExcludes: { "/*": [".env*", ".evn*", "artifacts/**", "tests/**"] },
+  outputFileTracingExcludes: { "/*": ["**/.env*", "**/.evn*", ".vercel/**", "artifacts/**", "tests/**"] },
   async headers() {
     return [{ source: "/:path*", headers: [
       { key: "X-Content-Type-Options", value: "nosniff" },

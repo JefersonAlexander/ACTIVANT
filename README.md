@@ -1,6 +1,8 @@
 # ACTIVANT
 
-**Antes de desplegar:** consultar el [informe de auditoría](docs/audit-2026-11-13.md) y el [procedimiento con checklist](docs/deployment.md). La conexión real con Supabase Auth ya respondió; faltan el esquema remoto y el cierre del registro público. No está aprobado todavía para datos institucionales.
+**Antes de desplegar:** consultar el [informe de auditoría](docs/audit-2026-11-13.md) y el [procedimiento con checklist](docs/deployment.md). Comprobar en Actions el resultado de las migraciones y verificaciones remotas; la configuración local no demuestra que la base esté instalada. No está aprobado todavía para datos institucionales.
+
+El flujo [automático de GitHub Actions](docs/automatic-deployment.md) prueba el código, compila con las variables Production de Vercel, aplica migraciones pendientes y publica el mismo artefacto. Requiere los seis secretos documentados; los push de `main` se publican por ese flujo y no por el despliegue Git paralelo de Vercel.
 
 Plataforma de bienestar institucional para la Gobernación de Antioquia. Base Next.js App Router con TypeScript estricto, Tailwind CSS, shadcn/ui, Lucide, Zod y autenticación exclusiva de Supabase Auth. Incluye el modelo PostgreSQL de gimnasio, reservas, asistencia y permisos. Incluye dashboards de usuario y administración, calendario y consultas protegidas por rol. Incluye reservas y cancelaciones transaccionales, cupos agregados e historial, además de configuración de horarios/capacidad. Incluye registro de asistencia con QR dinámico de 15 segundos, escáner móvil e ingreso manual auditado. Incluye libro transaccional de puntos, bonos, constancia y revisión de inasistencias. Incluye lista de espera FIFO con ofertas temporales, notificaciones internas y recordatorios configurables. Incluye biblioteca privada, gestión de usuarios/roles/habilitaciones, contenidos, reglas, reportes CSV y auditoría. No hay recompensas ni canjes habilitados.
 
@@ -36,7 +38,7 @@ Para la expiración automática de ofertas sin usuarios conectados, habilita `pg
 
 ## Modelo de datos y RLS
 
-[Diseño del modelo y relaciones](docs/database-model.md). Las migraciones versionadas extienden perfiles con integridad, RLS, auditoría y funciones SQL controladas. No se aplicaron a producción.
+[Diseño del modelo y relaciones](docs/database-model.md). Las migraciones versionadas extienden perfiles con integridad, RLS, auditoría y funciones SQL controladas. El historial remoto se comprueba en el job de publicación y con `supabase migration list --remote`.
 
 ```powershell
 npm.cmd ci --prefix tools/database
