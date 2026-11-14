@@ -18,8 +18,8 @@ enable_confirmations = true
 
 [auth.email.template.recovery]
 subject = "Restablece tu contraseña de ACTIVANT"
-content_path = "./templates/recovery.html"
+content_path = "./supabase/templates/recovery.html"
 
 [auth.email.template.invite]
 subject = "Invitación a ACTIVANT"
-content_path = "./templates/invite.html"
+content_path = "./supabase/templates/invite.html"

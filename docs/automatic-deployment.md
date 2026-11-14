@@ -31,7 +31,7 @@ En GitHub, repositorio ACTIVANT → Settings → Secrets and variables → Actio
 
 `GITHUB_TOKEN` lo proporciona GitHub automaticamente, con `contents: read`; no hay que crearlo. No guardar secretos en YAML, `.env.example`, mensajes o comentarios del repositorio. GitHub no permite consultar sus valores una vez guardados: corregirlos exige actualizarlos. El preflight informa nombres y formato, no demuestra que las credenciales sean validas hasta conectar.
 
-En Vercel → ACTIVANT → Settings → Environment Variables, alcance **Production**:
+En Vercel → ACTIVANT → Settings → Environment Variables, alcance **Production**, crear las cuatro variables siguientes con tipo **Config**:
 
 ```dotenv
 APP_ENV=production
@@ -40,11 +40,13 @@ NEXT_PUBLIC_SUPABASE_URL=https://REFERENCIA_DEL_PROYECTO.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=CLAVE_PUBLICABLE_DEL_MISMO_PROYECTO
 ```
 
-Los dos ultimos valores son marcadores que deben reemplazarse. Mantener los secretos de migracion exclusivamente en GitHub. La clave opcional `SUPABASE_SECRET_KEY` de invitaciones es distinta y, si se utiliza, corresponde solo al servidor Vercel. El archivo local `.env.local` conserva su configuracion de desarrollo.
+Los dos ultimos valores son marcadores que deben reemplazarse. Estas cuatro variables son configuracion no confidencial: `vercel pull` no puede recuperar valores de tipo Secret y escribe `[SENSITIVE]` en su lugar. Para cambiar una variable Secret existente a Config, tener primero su valor correcto, eliminarla y recrearla con el mismo nombre; Vercel no permite convertirla directamente. Mantener los secretos de migracion exclusivamente en GitHub. La clave opcional `SUPABASE_SECRET_KEY` de invitaciones es distinta y, si se utiliza, corresponde solo al servidor Vercel. El archivo local `.env.local` conserva su configuracion de desarrollo.
 
 El [vercel.json](../vercel.json) deshabilita el despliegue Git automatico de `main` para que no se adelante al workflow. La CLI publica despues de las migraciones. Las otras ramas conservan su comportamiento Preview y deben usar un proyecto de pruebas. No hace falta desconectar GitHub de Vercel ni crear un Deploy Hook. Revisar que no haya otros workflows/hooks publicando produccion por fuera de este orden. Los Redeploy manuales del Dashboard son operaciones del propietario y pueden omitir estas comprobaciones.
 
 En Supabase → Authentication → [Sign In / Providers](https://supabase.com/dashboard/project/_/auth/providers), apagar **Allow new users to sign up** y el acceso anonimo. Configurar Site URL y callback exactos segun [despliegue](deployment.md). Los cambios de Auth no se aplican con `db push`.
+
+La CLI resuelve `auth.email.template.*.content_path` desde la raiz del proyecto. Los archivos se referencian como `./supabase/templates/recovery.html` y `./supabase/templates/invite.html`; no como `./templates/...`. La validacion de configuracion se ejecuta incluso al revisar las migraciones remotas.
 
 ## Primera ejecucion y recuperacion
 
