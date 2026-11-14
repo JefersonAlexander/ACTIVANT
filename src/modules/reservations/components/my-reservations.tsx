@@ -19,7 +19,7 @@ function ReservationItems({ items, observedAt, cancel = false }: { items: Item[]
 }
 export function MyReservationsView({ data, summary = false }: { data: MyReservations; summary?: boolean }) {
   return <div className="space-y-6">
-    <Panel title="Reservas activas" description="Tus próximas franjas y reservas en curso.">
+    <Panel title="Reservas activas" tone="forest" description="Tus próximas franjas y reservas en curso.">
       {data.active.error ? <ReadError message={data.active.error} /> : data.active.data?.length ? <><ReservationItems items={data.active.data} observedAt={data.observedAt} cancel />{(data.active.count ?? 0) > data.active.data.length && <p className="mt-4 text-sm text-muted-foreground">Se muestran las primeras 50 reservas activas.</p>}</> : <QuietEmpty icon={CalendarDays} title="Aún no tienes reservas activas" description="Elige un horario disponible en el calendario del gimnasio." />}
     </Panel>
     {summary ? <Button asChild variant="outline"><Link href="/historial">Ver Mis reservas e historial</Link></Button> : <Panel title="Historial de reservas" description="Todas tus reservas, incluidas las activas y las canceladas. Diez por página.">

@@ -18,7 +18,7 @@ export function EligibilityPanel({ overview }: { overview: Pick<MemberOverview, 
 }
 export function NextReservation({ result }: { result: MemberOverview["next"] }) {
   const reservation = result.data?.[0];
-  return <Panel title="Tu próxima reserva" action={<CalendarDays className="size-5 text-primary" aria-hidden="true" />}>
+  return <Panel title="Tu próxima reserva" tone="forest" action={<CalendarDays className="size-5 text-primary" aria-hidden="true" />}>
     {result.error ? <ReadError message={result.error} /> : reservation ? <><Badge>Confirmada</Badge><p className="mt-4 text-xl font-semibold first-letter:uppercase">{formatDate(reservation.gym_slots.starts_at, { weekday: "long", day: "numeric", month: "long" })}</p><p className="mt-2 text-sm text-muted-foreground">Gimnasio · {formatTime(reservation.gym_slots.starts_at)} – {formatTime(reservation.gym_slots.ends_at)}</p><Button asChild variant="outline" className="mt-5"><Link href="/historial">Consultar mis reservas</Link></Button></> : <QuietEmpty icon={CalendarDays} title="Un espacio por agendar" description="Aún no tienes una próxima reserva confirmada. Puedes consultar las franjas publicadas en el gimnasio." />}
   </Panel>;
 }

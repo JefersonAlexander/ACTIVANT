@@ -22,7 +22,7 @@ export function HomePage() {
           <p className="mb-6 flex items-center gap-2 text-xs font-bold tracking-[0.14em] text-primary uppercase">
             <span className="h-px w-7 bg-primary" /> Bienvenidos a ACTIVANT
           </p>
-          <h1 id="welcome-title" className="max-w-xl text-[clamp(2.7rem,5vw,4.5rem)] leading-[1.08] font-semibold tracking-[-0.055em]">
+          <h1 id="welcome-title" className="max-w-xl text-[clamp(2.7rem,5vw,4.5rem)] leading-[1.08] font-bold tracking-[-0.055em]">
             Tu bienestar,<br /><span className="text-primary">un buen comienzo.</span>
           </h1>
           <p className="mt-6 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
@@ -45,10 +45,10 @@ export function HomePage() {
           <p className="max-w-sm text-sm leading-6 text-muted-foreground">Una plataforma con las personas en el centro y el bienestar como punto de encuentro.</p>
         </div>
         <div className="mt-9 grid gap-4 md:grid-cols-3">
-          {principles.map(({ icon: Icon, number, title, description }) => <Card key={number} className="border-border/80 shadow-none">
+          {principles.map(({ icon: Icon, number, title, description }) => <Card key={number}>
             <CardHeader className="p-6 sm:p-7">
               <div className="mb-6 flex items-center justify-between">
-                <span className="flex size-11 items-center justify-center rounded-xl bg-secondary text-primary"><Icon className="size-5" aria-hidden="true" /></span>
+                <span className="flex size-12 items-center justify-center rounded-full bg-primary text-white"><Icon className="size-6" aria-hidden="true" /></span>
                 <span className="font-mono text-xs text-muted-foreground">{number}</span>
               </div>
               <CardTitle>{title}</CardTitle>

@@ -13,12 +13,10 @@ async function login(page: Page, kind: string) {
   await expect(page.getByRole("heading", { name: kind === "roles-error" ? "No pudimos mostrar este contenido" : "Tu espacio de bienestar", exact: true })).toBeVisible();
 }
 async function openNavigation(page: Page) {
-  const menu = page.getByRole("button", { name: /^(Menú|Cerrar menú)$/ });
-  if ((page.viewportSize()?.width ?? 0) < 1024) {
-    await expect(menu).toBeVisible();
-    if (await menu.getAttribute("aria-expanded") !== "true") await menu.click();
-    await expect(menu).toHaveAttribute("aria-expanded", "true");
-  }
+  const menu = page.getByRole("button", { name: "Menú", exact: true });
+  await expect(menu).toBeVisible();
+  if (await menu.getAttribute("aria-expanded") !== "true") await menu.click();
+  await expect(page.getByRole("button", { name: "Cerrar menú", exact: true })).toHaveAttribute("aria-expanded", "true");
   const nav = page.getByRole("navigation", { name: "Navegación de ACTIVANT" });
   await expect(nav).toBeVisible();
   return nav;

@@ -17,46 +17,76 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --color-forest: var(--forest);
+  --color-mint: var(--mint);
+  --color-brand-green: var(--brand-green);
+  --font-sans: var(--font-activant), "Segoe UI", Arial, sans-serif;
   --font-mono: "Cascadia Code", Consolas, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
+  --shadow-soft: 0 8px 24px -10px rgb(5 73 54 / 20%);
+  --shadow-float: 0 12px 30px -8px rgb(13 47 36 / 28%);
 }
 
 :root {
   color-scheme: light;
-  --background: #ffffff;
-  --foreground: #24382f;
+  --background: #eff9f4;
+  --foreground: #0b5743;
   --card: #ffffff;
-  --card-foreground: #24382f;
-  --primary: #246747;
+  --card-foreground: #0b5743;
+  --primary: #007a2c;
   --primary-foreground: #ffffff;
-  --secondary: #edf3e9;
-  --secondary-foreground: #28513b;
-  --muted: #f5f6f3;
-  --muted-foreground: #5f6e63;
-  --accent: #e5efdf;
-  --accent-foreground: #244b35;
+  --secondary: #def4e8;
+  --secondary-foreground: #0b5743;
+  --muted: #e6f4ed;
+  --muted-foreground: #53655d;
+  --accent: #2cf5a0;
+  --accent-foreground: #064c39;
+  --forest: #0b5743;
+  --mint: #2cf5a0;
+  --brand-green: #008f32;
   --destructive: #b42318;
-  --border: #dde4da;
-  --input: #c3cfc0;
-  --ring: #246747;
-  --radius: 0.625rem;
+  --border: #d0e5d9;
+  --input: #6d907c;
+  --ring: #007a2c;
+  --radius: 1.25rem;
+}
+
+/* Tarjetas oscuras de las referencias: los componentes conservan sus tokens. */
+[data-tone="forest"] {
+  --background: #0b5743;
+  --foreground: #ffffff;
+  --card: #0b5743;
+  --card-foreground: #ffffff;
+  --primary: #2cf5a0;
+  --primary-foreground: #064c39;
+  --secondary: #126d54;
+  --secondary-foreground: #ffffff;
+  --muted: #126d54;
+  --muted-foreground: #d9eee4;
+  --border: #448774;
+  --input: #8bbbab;
+  --ring: #2cf5a0;
 }
 
 @layer base {
   * { @apply border-border; }
   body { @apply bg-background font-sans text-foreground; }
+  h1, h2, h3 { text-wrap: pretty; }
+  select, textarea { @apply border-input bg-card text-foreground; }
+  select { padding-right: 2rem; }
+  option { background: white; color: #0b5743; }
+  dialog { --foreground: #0b5743; --muted-foreground: #53655d; --primary: #007a2c; --primary-foreground: #ffffff; --secondary: #def4e8; --secondary-foreground: #0b5743; --input: #6d907c; --ring: #007a2c; }
   a, button, summary { -webkit-tap-highlight-color: transparent; }
   a:focus-visible, button:focus-visible, summary:focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 4px;
   }
   button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
-  ::selection { background: #d5e6cd; color: #173d29; }
+  ::selection { background: #2cf5a0; color: #064c39; }
 }
 
 .skip-link {
@@ -82,10 +112,20 @@
 }
 
 .gym-occupancy::-webkit-meter-bar { background: var(--border); border: 0; border-radius: 1rem; }
-.gym-occupancy::-webkit-meter-optimum-value { background: var(--primary); border-radius: 1rem; }
-.gym-occupancy::-moz-meter-bar { background: var(--primary); border-radius: 1rem; }
+.gym-occupancy::-webkit-meter-optimum-value { background: var(--mint); border-radius: 1rem; }
+.gym-occupancy::-moz-meter-bar { background: var(--mint); border-radius: 1rem; }
 
-.program-progress { appearance: none; height: .625rem; overflow: hidden; border: 0; border-radius: 1rem; background: var(--border); }
+.program-progress { appearance: none; height: .875rem; overflow: hidden; border: 0; border-radius: 1rem; background: var(--border); }
 .program-progress::-webkit-progress-bar { background: var(--border); border-radius: 1rem; }
-.program-progress::-webkit-progress-value { background: var(--primary); border-radius: 1rem; }
-.program-progress::-moz-progress-bar { background: var(--primary); border-radius: 1rem; }
+.program-progress::-webkit-progress-value { background: linear-gradient(90deg, #008f32, #0b5743); border-radius: 1rem; }
+.program-progress::-moz-progress-bar { background: linear-gradient(90deg, #008f32, #0b5743); border-radius: 1rem; }
+
+/* La barra lateral deja espacio al contenido y a los botones nativos de diálogo. */
+.app-content { padding-right: 5.25rem; }
+@media (min-width: 640px) { .app-content { padding-right: 7rem; } }
+@media (min-width: 1024px) { .app-content { padding-right: 8rem; } }
+@media (max-width: 359px) {
+  .app-content { padding-right: 4.5rem; }
+  .app-content [data-slot="button"] { white-space: normal; }
+  .app-content [data-slot="card"] > div { padding-left: 1rem; padding-right: 1rem; }
+}

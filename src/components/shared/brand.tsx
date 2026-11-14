@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { Activity } from "lucide-react";
+import Image from "next/image";
+import activantLogo from "../../../public/images/Logotipo Activant.png";
 import { cn } from "@/lib/utils";
 
-export function Brand({ className }: { className?: string }) {
-  return <Link href="/" aria-label="ACTIVANT, ir al inicio" className={cn("inline-flex min-h-11 items-center gap-2.5 rounded-md", className)}>
-    <span className="flex size-10 items-center justify-center rounded-xl bg-primary text-white">
-      <Activity className="size-6" strokeWidth={2} aria-hidden="true" />
-    </span>
-    <span className="text-xl font-extrabold tracking-[-0.06em]">ACTIV<span className="text-primary">ANT</span></span>
+type BrandProps = { className?: string; href?: string; ariaLabel?: string; preload?: boolean };
+
+export function Brand({ className, href = "/", ariaLabel = "ACTIVANT, ir al inicio", preload = false }: BrandProps) {
+  return <Link href={href} aria-label={ariaLabel} className={cn("inline-flex min-h-11 max-w-full shrink-0 items-center rounded-md", className)}>
+    <Image src={activantLogo} alt="ACTIVANT" sizes="(min-width: 640px) 160px, 144px" preload={preload} className="h-auto w-36 object-contain sm:w-40" />
   </Link>;
 }
