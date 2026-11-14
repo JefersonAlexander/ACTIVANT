@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Brand } from "@/components/shared/brand";
+import { InstitutionLogo } from "@/components/shared/institution-logo";
 import { AppNavigation } from "./app-navigation";
 import { LogoutButton } from "@/modules/auth";
 import type { requireViewer } from "@/modules/auth/server";
@@ -19,7 +20,7 @@ export function AppShell({ viewer, children }: { viewer: Viewer; children: React
         </Link>
       </header>
       <main id="contenido" tabIndex={-1} className="mx-auto max-w-[1440px] px-4 py-7 focus:outline-none sm:px-6 sm:py-8 lg:px-8 xl:px-10 xl:py-10"><NotificationAccess />{children}</main>
-      <footer className="mx-4 mb-5 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-white bg-white p-6 text-xs text-muted-foreground shadow-soft sm:mx-6 lg:mx-8 xl:mx-10"><Brand /><p className="leading-relaxed">Gobernación de Antioquia<br />Bienestar institucional</p><LogoutButton /></footer>
+      <footer className="mx-4 mb-5 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-white bg-white p-6 text-xs text-muted-foreground shadow-soft sm:mx-6 lg:mx-8 xl:mx-10"><Brand /><InstitutionLogo /><LogoutButton /></footer>
     </div>
   </div>;
 }
