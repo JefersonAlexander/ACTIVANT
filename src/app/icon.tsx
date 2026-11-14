@@ -10,7 +10,6 @@ export default async function Icon() {
   return new ImageResponse(
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%", background: "white" }}>
       {/* ImageResponse necesita una imagen nativa; conserva el logotipo completo. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={`data:image/png;base64,${logo.toString("base64")}`} alt="" width={60} height={60 * 836 / 1881} />
     </div>,
     size,
