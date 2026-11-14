@@ -4,6 +4,7 @@ const start=new Date(Date.now()-5*60000).toISOString();
 const end=new Date(Date.now()+60*60000).toISOString();
 const slotId="71000000-0000-4000-8000-000000000001";
 const tokens=new Map();const histories=new Map();
+export function resetAttendanceFixture(accountId){histories.delete(accountId);}
 const reservationId=account=>`81000000-0000-4000-8000-${account.id.slice(-12)}`;
 function create(outcome="ok") {const token=randomBytes(32).toString("hex");tokens.set(token,{outcome,expires:Date.now()+15000});return token;}
 export function attendanceInfo(){

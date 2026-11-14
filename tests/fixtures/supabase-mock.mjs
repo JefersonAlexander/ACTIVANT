@@ -2,7 +2,7 @@
 // El SDK real de Supabase realiza las solicitudes a este servidor aislado.
 import { handleLibraryStorage, handleLibraryAdminFixture, reviseLibraryFixture } from "./library-admin-fixture.mjs";
 import { createServer } from "node:http";
-import { handleAttendanceFixture, attendanceInfo } from "./attendance-fixture.mjs";
+import { handleAttendanceFixture, attendanceInfo, resetAttendanceFixture } from "./attendance-fixture.mjs";
 import { handleWaitlistFixture, waitlistInfo, waitlistEvent } from "./waitlist-fixture.mjs";
 import { handleProgramFixture } from "./program-fixture.mjs";
 
@@ -61,6 +61,12 @@ const server = createServer(async (req, res) => {
   if(handleLibraryStorage({account:storageAccount,url,req,res,send,buffer:Buffer.concat(buffers)})) return;
   let body;
   try { body = JSON.parse(Buffer.concat(buffers).toString() || "{}"); } catch { return send(400, {}); }
+  // Solo el doble HTTP local: cada prueba mutante reinicia su propia identidad.
+  if (url.pathname === "/_test/attendance-reset" && req.method === "POST") {
+    const target = accounts.find(candidate => candidate.kind === body.kind && candidate.kind.startsWith("attendance"));
+    if (!target) return send(404, {});
+    resetAttendanceFixture(target.id); return send(200, { reset: true });
+  }
   if (url.pathname === "/_test/waitlist-event") return send(200, { updated: waitlistEvent(body.kind, body.event) });
   if (url.pathname === "/_test/library-revise") return send(200, { updated: reviseLibraryFixture(body.kind, body.id) });
   const account = fromToken((req.headers.authorization ?? "").replace("Bearer ", ""));

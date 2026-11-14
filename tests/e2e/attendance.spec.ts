@@ -6,6 +6,10 @@ async function login(page:Page,kind:string,project:string){
  await page.goto("/login");await page.getByLabel("Correo electrónico",{exact:true}).fill(`${kind}-${project}@activant.test`);await page.getByLabel("Contraseña",{exact:true}).fill("test-only-passphrase-2026");await page.getByRole("button",{name:"Iniciar sesión",exact:true}).click();await expect(page.getByRole("heading",{name:"Tu espacio de bienestar",exact:true})).toBeVisible();
 }
 async function payloads(request:APIRequestContext){return await (await request.get("http://127.0.0.1:54322/_test/attendance-info")).json() as Record<string,string>;}
+async function resetAttendance(request:APIRequestContext,kind:string,project:string){
+ const response=await request.post("http://127.0.0.1:54322/_test/attendance-reset",{data:{kind:`${kind}-${project}`}});
+ expect(response.ok()).toBeTruthy();
+}
 async function upload(page:Page,payload:string){
  const file=await QRCode.toBuffer(payload,{width:480,margin:4});
  const details=page.locator("details").filter({has:page.getByText("Usar una foto del código actual",{exact:true})});
@@ -13,6 +17,8 @@ async function upload(page:Page,payload:string){
  await page.getByLabel("Foto del QR (máximo 8 MB)").setInputFiles({name:"qr-fixture.png",mimeType:"image/png",buffer:file});
 }
 async function audit(page:Page,info:TestInfo,name:string){
+ // Las acciones pueden actualizar el contenido antes que los metadatos de Next.
+ await expect(page).toHaveTitle(/ACTIVANT/);
  await page.evaluate(()=>window.scrollTo(0,0));
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
  const report=await new AxeBuilder({page}).withTags(["wcag2a","wcag2aa","wcag21aa","wcag22aa"]).analyze();expect(report.violations).toEqual([]);
@@ -28,6 +34,7 @@ test("personal muestra QR y lo renueva automáticamente a los 15 segundos",async
  expect(errors).toEqual([]);
 });
 test("cámara denegada permite foto válida y confirma asistencia e historial",async({page,request},info)=>{
+ await resetAttendance(request,"attendance",info.project.name);
  const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
  await login(page,"attendance",info.project.name);await page.goto("/asistencia");
  await expect(page.getByRole("heading",{name:"Registrar asistencia",exact:true})).toBeVisible();await expect(page.getByText("Sin asistencias registradas",{exact:true})).toBeVisible();
@@ -46,7 +53,8 @@ test("QR vencido, manipulado, sin reserva, cancelado y duplicado muestran mensaj
  }
  await audit(page,info,"asistencia-error.png");
 });
-test("personal registra ingreso manual con motivo y evita duplicados",async({page},info)=>{
+test("personal registra ingreso manual con motivo y evita duplicados",async({page,request},info)=>{
+ await resetAttendance(request,"attendance-staff",info.project.name);
  await login(page,"attendance-staff",info.project.name);await page.goto("/control-asistencia");
  const reservations=page.getByRole("region",{name:"Reservas de la franja en curso"});const id=(await reservations.locator("p.font-mono").textContent())!;
  const form=page.getByRole("region",{name:"Ingreso manual excepcional"});await form.getByLabel("Código de reserva",{exact:true}).fill(id);await form.getByLabel("Motivo de excepción").selectOption("camera_unavailable");await form.getByRole("button",{name:"Confirmar ingreso manual",exact:true}).click();await expect(form.getByRole("status")).toContainText("registrada y auditada");
@@ -61,6 +69,7 @@ test("rutas de asistencia exigen sesión y el QR del personal exige rol",async({
 });
 
 test("cámara decodifica un QR real desde un flujo de video y detiene sus pistas",async({page,request},info)=>{
+ await resetAttendance(request,"attendance-camera",info.project.name);
  await login(page,"attendance-camera",info.project.name);await page.goto("/asistencia");
  const values=await payloads(request);const image=await QRCode.toDataURL(values.ok!,{width:280,margin:4});
  await page.evaluate(async(src)=>{
